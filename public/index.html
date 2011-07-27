@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>Orientation Tester</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>
+<script src="/www/js/modernizr-2.0.3.js"></script>
+<script src="/www/js/modernizr.accelerometer.js"></script>
+<script src="/www/js/modernizr.gyroscope.js"></script>
+<script type='text/javascript' src='/www/js/jqm.mobile-utilities.js'></script>
+<script type='text/javascript' src='/www/js/jquery.custom-events.js'></script>
+<meta name="viewport" content="width=550;" />
+</head>
+<body>
+
+<h1>General</h1>
+<p>Angle: <span id="angle"></span></p>
+<p>Mode: <span id="mode"></span></p>
+
+<h1>Accelerometer (<span id="accelerometer">disabled</span>)</h1>
+<p>X: <span id="x"></span></p>
+<p>Y: <span id="y"></span></p>
+
+<h1>Gyroscope (<span id="gyroscope">disabled</span>)</h1>
+<p>Alpha: <span id="alpha"></span></p>
+<p>Beta: <span id="beta"></span></p>
+<p>Gamma: <span id="gamma"></span></p>
+<p>Roll: <span id="roll"></span></p>
+<p>Pitch: <span id="pitch"></span></p>
+<p>Yaw: <span id="yaw"></span></p>
+
+<script>
+$.noConflict();
+jQuery(document).ready(function() {
+  // We have to throw custom orientation change events or MobileUtilities.orientation() never updates
+  var customOrientationChange = CustomEvents.CustomOrientationChange.create();
+  jQuery(window)
+    .bind(
+      CustomEvents.CustomOrientationChange.triggers,
+      function() { customOrientationChange.detector.apply(customOrientationChange, arguments); }
+    )
+    ;
+
+  var mode = 'tilt-to-pan';
+  var hardwarePan = CustomEvents.HardwarePan.create({
+    gyroscope:     true,
+    accelerometer: true
+  });
+  jQuery(window)
+    .bind(
+      CustomEvents.HardwarePan.triggers,
+      function() { hardwarePan.detector.apply(hardwarePan, arguments); }
+    )
+    .bind('hardwarePanMove', function(e) {
+      if (e.angle) jQuery('#angle').html(e.angle);
+
+      if (e.hardware == 'accelerometer') {
+        jQuery('#accelerometer').html('enabled');
+        var acc = e.accelerationIncludingGravity;
+        if (acc)
+        {
+          if (acc.x) jQuery('#x').html(acc.x);
+          if (acc.y) jQuery('#y').html(acc.y);
+        }
+      }
+      if (hardwarePan._mode) jQuery('#mode').html(hardwarePan._mode);
+
+      if (e.hardware == 'gyroscope') jQuery('#gyroscope').html('enabled');
+      if (e.alpha) jQuery('#alpha').html(e.alpha);
+      if (e.beta) jQuery('#beta').html(e.beta);
+      if (e.gamma) jQuery('#gamma').html(e.gamma);
+      if (e.roll) jQuery('#roll').html(e.roll);
+      if (e.pitch) jQuery('#pitch').html(e.pitch);
+      if (e.yaw) jQuery('#yaw').html(e.yaw);
+    })
+    ;
+});
+</script>
+</body>
+</html>
