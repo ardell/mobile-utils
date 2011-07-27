@@ -498,6 +498,148 @@ CustomEvents.HardwarePan = {
 };
 
 /**
+ * DeviceMovement event: Triggered by movements
+ * of the gyroscope or accelerometer.
+ */
+CustomEvents.DeviceMovement = {
+
+  triggers: [
+    'deviceorientation',
+    'devicemotion'
+  ].join(' '),
+
+  create: function(options) {
+    var deviceMovementEventObj = {
+      _detectGyroscope:     true,
+      _detectAccelerometer: true,
+      _mode:                false,
+
+      init: function(options)
+      {
+        if (!options)
+        {
+          options = {};
+        }
+        if (options.gyroscope == false)
+        {
+          this._detectGyroscope = false;
+        }
+        if (options.accelerometer == false)
+        {
+          this._detectAccelerometer = false;
+        }
+        return this;
+      },
+
+      detector: function(event) {
+        if (event.type == 'deviceorientation' && !this._detectGyroscope) return true;
+        if (event.type == 'devicemotion' && !this._detectAccelerometer) return true;
+
+        // Compute euler angles from alpha/beta/gamma
+        // see: http://stackoverflow.com/questions/5420986/converting-g-force-data-to-rotation
+        // see: https://github.com/fieldOfView/krpano_gyro/blob/master/krpanogyro.js
+        var angles = null;
+        if (event.type == 'deviceorientation') {
+          var originalEvent = event.originalEvent;
+          var degRad = Math.PI/180;
+          var angles = this._rotateEuler({
+            yaw:   originalEvent.alpha * degRad,
+            pitch: originalEvent.beta * degRad,
+            roll:  originalEvent.gamma * degRad
+          });
+
+          // Correct from radians back to degrees
+          angles.yaw   /= degRad;
+          angles.pitch /= degRad;
+          angles.roll  /= degRad;
+        }
+
+        // Throw the proper event
+        if (event.type == 'deviceorientation') {
+          if (event.originalEvent.alpha == undefined) return true;
+          if (event.originalEvent.beta  == undefined) return true;
+          if (event.originalEvent.gamma == undefined) return true;
+
+          var customEvent       = jQuery.Event("deviceMovement");
+          customEvent.hardware  = 'gyroscope';
+          customEvent.angle     = -angles.yaw;
+          customEvent.alpha     = event.originalEvent.alpha;
+          customEvent.beta      = event.originalEvent.beta;
+          customEvent.gamma     = event.originalEvent.gamma;
+          customEvent.roll      = angles.roll;
+          customEvent.pitch     = angles.pitch;
+          customEvent.yaw       = angles.yaw;
+          jQuery(event.currentTarget).trigger(customEvent);
+        } else if (event.type == 'devicemotion') {
+          var acceleration = null;
+          if (orientation == 'landscape')
+          {
+            acceleration = -event.originalEvent.accelerationIncludingGravity.y;
+          } else {
+            acceleration = event.originalEvent.accelerationIncludingGravity.x;
+          }
+          var angle = acceleration / 9.8 * 90;
+
+          var customEvent                          = jQuery.Event("deviceMovement");
+          customEvent.hardware                     = 'accelerometer';
+          customEvent.angle                        = angle;
+          customEvent.accelerationIncludingGravity = event.originalEvent.accelerationIncludingGravity;
+          jQuery(event.currentTarget).trigger(customEvent);
+        }
+
+        return true;
+      },
+
+      _rotateEuler: function(euler) {
+        // based on http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToMatrix/index.htm
+        // and http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToEuler/index.htm
+
+        var heading, bank, attitude,
+          ch = Math.cos(euler.yaw),
+          sh = Math.sin(euler.yaw),
+          ca = Math.cos(euler.pitch),
+          sa = Math.sin(euler.pitch),
+          cb = Math.cos(euler.roll),
+          sb = Math.sin(euler.roll);
+
+        // note: includes 90 degree rotation around z axis
+        matrix = new Array(
+          sh*sb - ch*sa*cb,   -ch*ca,    ch*sa*sb + sh*cb,
+          ca*cb,              -sa,      -ca*sb,
+          sh*sa*cb + ch*sb,    sh*ca,   -sh*sa*sb + ch*cb
+        );
+
+        /* [m00 m01 m02] 0 1 2
+         * [m10 m11 m12] 3 4 5
+         * [m20 m21 m22] 6 7 8 */
+
+        if (matrix[3] > 0.9999) { // singularity at north pole
+          heading  = Math.atan2(matrix[2],matrix[8]);
+          attitude = Math.PI/2;
+          bank     = 0;
+        } else if (matrix[3] < -0.9999) { // singularity at south pole
+          heading  = Math.atan2(matrix[2],matrix[8]);
+          attitude = -Math.PI/2;
+          bank     = 0;
+        } else {
+          heading  = Math.atan2(-matrix[6],matrix[0]);
+          bank     = Math.atan2(-matrix[5],matrix[4]);
+          attitude = Math.asin(matrix[3]);
+        }
+
+        return {
+          yaw:   heading,
+          pitch: attitude,
+          roll:  bank
+        };
+      }
+    };
+
+    return deviceMovementEventObj.init(options);
+  }
+};
+
+/**
  * Drag event: Triggered when a user clicks
  * then moves at least one pixel. Fires
  * dragMove events whenever the user moves

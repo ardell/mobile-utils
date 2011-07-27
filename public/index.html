@@ -43,16 +43,16 @@ jQuery(document).ready(function() {
     )
     ;
 
-  var hardwarePan = CustomEvents.HardwarePan.create({
+  var deviceMovement = CustomEvents.DeviceMovement.create({
     gyroscope:     true,
     accelerometer: true
   });
   jQuery(window)
     .bind(
-      CustomEvents.HardwarePan.triggers,
-      function() { hardwarePan.detector.apply(hardwarePan, arguments); }
+      CustomEvents.DeviceMovement.triggers,
+      function() { deviceMovement.detector.apply(deviceMovement, arguments); }
     )
-    .bind('hardwarePanMove', function(e) {
+    .bind('deviceMovement', function(e) {
       if (e.hardware == 'accelerometer') {
         jQuery('#accelerometer').html('enabled');
         var acc = e.accelerationIncludingGravity;
