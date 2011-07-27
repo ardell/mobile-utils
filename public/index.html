@@ -11,10 +11,6 @@
 </head>
 <body>
 
-<h1>General</h1>
-<p>Angle: <span id="angle"></span></p>
-<p>Mode: <span id="mode"></span></p>
-
 <h1>Accelerometer (<span id="accelerometer">disabled</span>)</h1>
 <p>X: <span id="x"></span></p>
 <p>Y: <span id="y"></span></p>
@@ -30,6 +26,14 @@
 <script>
 $.noConflict();
 jQuery(document).ready(function() {
+  // Round values before outputting them
+  var displayRoundedValue = function(selector, value) {
+    var NUM_DECIMALS = 2;
+    var multiplier = Math.pow(10, NUM_DECIMALS);
+    var rounded = Math.round(value * multiplier) / multiplier;
+    jQuery(selector).html(rounded);
+  };
+
   // We have to throw custom orientation change events or MobileUtilities.orientation() never updates
   var customOrientationChange = CustomEvents.CustomOrientationChange.create();
   jQuery(window)
@@ -39,7 +43,6 @@ jQuery(document).ready(function() {
     )
     ;
 
-  var mode = 'tilt-to-pan';
   var hardwarePan = CustomEvents.HardwarePan.create({
     gyroscope:     true,
     accelerometer: true
@@ -50,26 +53,23 @@ jQuery(document).ready(function() {
       function() { hardwarePan.detector.apply(hardwarePan, arguments); }
     )
     .bind('hardwarePanMove', function(e) {
-      if (e.angle) jQuery('#angle').html(e.angle);
-
       if (e.hardware == 'accelerometer') {
         jQuery('#accelerometer').html('enabled');
         var acc = e.accelerationIncludingGravity;
         if (acc)
         {
-          if (acc.x) jQuery('#x').html(acc.x);
-          if (acc.y) jQuery('#y').html(acc.y);
+          if (acc.x) displayRoundedValue('#x', acc.x);
+          if (acc.y) displayRoundedValue('#y', acc.y);
         }
       }
-      if (hardwarePan._mode) jQuery('#mode').html(hardwarePan._mode);
 
       if (e.hardware == 'gyroscope') jQuery('#gyroscope').html('enabled');
-      if (e.alpha) jQuery('#alpha').html(e.alpha);
-      if (e.beta) jQuery('#beta').html(e.beta);
-      if (e.gamma) jQuery('#gamma').html(e.gamma);
-      if (e.roll) jQuery('#roll').html(e.roll);
-      if (e.pitch) jQuery('#pitch').html(e.pitch);
-      if (e.yaw) jQuery('#yaw').html(e.yaw);
+      if (e.alpha) displayRoundedValue('#alpha', e.alpha);
+      if (e.beta)  displayRoundedValue('#beta',  e.beta);
+      if (e.gamma) displayRoundedValue('#gamma', e.gamma);
+      if (e.roll)  displayRoundedValue('#roll',  e.roll);
+      if (e.pitch) displayRoundedValue('#pitch', e.pitch);
+      if (e.yaw)   displayRoundedValue('#yaw',   e.yaw);
     })
     ;
 });
