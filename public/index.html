@@ -8,20 +8,50 @@
 <script src='/javascripts/jqm.mobile-utilities.js'></script>
 <script src='/javascripts/jquery.custom-events.js'></script>
 <meta name="viewport" content="width=550;" />
+<style type="text/css">
+label {
+  width: 8em;
+  display: inline-block;
+}
+</style>
 </head>
 <body>
 
 <h1>Accelerometer (<span id="accelerometer">disabled</span>)</h1>
-<p>X: <span id="x"></span></p>
-<p>Y: <span id="y"></span></p>
+<p>
+  <label>X:</label>
+  <span id="x"></span>
+</p>
+<p>
+  <label>Y:</label>
+  <span id="y"></span>
+</p>
 
 <h1>Gyroscope (<span id="gyroscope">disabled</span>)</h1>
-<p>Alpha: <span id="alpha"></span></p>
-<p>Beta: <span id="beta"></span></p>
-<p>Gamma: <span id="gamma"></span></p>
-<p>Roll: <span id="roll"></span></p>
-<p>Pitch: <span id="pitch"></span></p>
-<p>Yaw: <span id="yaw"></span></p>
+<p>
+  <label>Alpha:</label>
+  <span id="alpha"></span>
+</p>
+<p>
+  <label>Beta:</label>
+  <span id="beta"></span>
+</p>
+<p>
+  <label>Gamma:</label>
+  <span id="gamma"></span>
+</p>
+<p>
+  <label>Roll:</label>
+  <span id="roll"></span>
+</p>
+<p>
+  <label>Pitch:</label>
+  <span id="pitch"></span>
+</p>
+<p>
+  <label>Yaw:</label>
+  <span id="yaw"></span>
+</p>
 
 <script>
 $.noConflict();
