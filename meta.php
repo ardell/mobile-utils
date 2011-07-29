@@ -76,7 +76,6 @@ function read_persist_meta()
             if ($hasSomething)
             {
                 $metaTags[] = "<meta name=\"{$name}\" content=\"{$content}\" />";
-END;
             }
         }
         else
