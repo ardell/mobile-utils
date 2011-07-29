@@ -21,6 +21,12 @@ function read_persist_meta()
 {
     global $meta, $metaOut;
 
+    // did we reset?
+    if (isset($_REQUEST['ResetToDefaults']))
+    {
+        $_COOKIE = $_GET = $_POST = array();
+    }
+
     // coalesce defaults with GET/POST and COOKIE. GET/POST beats COOKIE.
     // meta.<name>=<value>
     // OR
@@ -101,25 +107,35 @@ function display_meta_control_panel()
 
     $form = new Form("MetaTagEditor");
     $form->configure(array(
-        "method" => "get",
+        "method" => "post",
     )); 
 
     $form->addElement(new Element_HTMLExternal('<fieldset><legend>viewport</legend>'));
     $form->addElement(new Element_Textbox("width:", "meta.viewport.width", array(
-        'description' => "default is 980, any number or device-width"
+        'description' => "default is 980, any number or <a href=''>device-width</a>"
     )));
     $form->addElement(new Element_Textbox("height:", "meta.viewport.height", array(
-        'description' => "default is 980, any number or device-height"
+        'description' => "default is 980, any number or <a href=''>device-height</a>"
     )));
-    $form->addElement(new Element_Textbox("initial-scale:", "meta.viewport.initial-scale"));
-    $form->addElement(new Element_Textbox("minimum-scale:", "meta.viewport.minimum-scale"));
-    $form->addElement(new Element_Textbox("maximum-scale:", "meta.viewport.maximum-scale"));
+    $form->addElement(new Element_Textbox("minimum-scale:", "meta.viewport.minimum-scale", array(
+        'description' => "0.25 to 10.0"
+        )));
+    $form->addElement(new Element_Textbox("maximum-scale:", "meta.viewport.maximum-scale", array(
+        'description' => "0.25 to 10.0"
+        )));
+    $form->addElement(new Element_Textbox("initial-scale:", "meta.viewport.initial-scale", array(
+        'description' => "0.25 to 10.0, clipped by minimum-scale and maximum-scale"
+        )));
+    $form->addElement(new Element_Textbox("target-densitydpi", "meta.viewport.target-densitydpi", array(
+        'description' => "integer value, or <a href=''>device-dpi</a>, <a href=''>high-dpi</a>, <a href=''>medium-dpi</a>, <a href=''>low-dpi</a>. android only."
+        )));
     $form->setValues(array(
             "meta.viewport.width" => $meta['viewport']['width'],
             "meta.viewport.height" => $meta['viewport']['height'],
             "meta.viewport.initial-scale" => $meta['viewport']['initial-scale'],
             "meta.viewport.minimum-scale" => $meta['viewport']['minimum-scale'],
             "meta.viewport.maximum-scale" => $meta['viewport']['maximum-scale'],
+            "meta.viewport.target-densitydpi" => $meta['viewport']['target-densitydpi'],
         ));
     $form->addElement(new Element_Select("user-scalable:", "meta.viewport.user-scalable", $yesNoOptions, array(
             "value" => $meta['viewport']['user-scalable']
@@ -132,6 +148,15 @@ function display_meta_control_panel()
         )));
     $form->addElement(new Element_HTMLExternal('</fieldset>'));
 
-    $form->addElement(new Element_Button);
+    $form->addElement(new Element_Button('Update'));
+    $form->addElement(new Element_Button('Reset To Defaults', NULL, array("name" => "ResetToDefaults")));
     print $form->render();
+    print <<<SCRIPT
+<script>
+$('#MetaTagEditor div.pfbc-label a').bind('click', function(e) {
+    e.preventDefault();
+    $(e.currentTarget).parents('.pfbc-element').find('input').val($(e.currentTarget).html());
+});
+</script>
+SCRIPT;
 }
