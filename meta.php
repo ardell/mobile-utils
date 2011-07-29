@@ -1,5 +1,6 @@
 <?php
 
+// default values
 $meta = array(
     'viewport' => array(
         'width'         => NULL,
@@ -9,6 +10,12 @@ $meta = array(
 $metaOut = "";
 
 read_persist_meta();
+session_start();
+
+/*********** FUNCTIONS ONLY BELOW ************/
+
+require_once dirname(__FILE__) . "/lib/PFBC/Form.php";
+require_once dirname(__FILE__) . "/lib/PFBC/Element/HTMLExternal.php";
 
 function read_persist_meta()
 {
@@ -82,10 +89,27 @@ function output_meta()
 
 function display_meta_control_panel()
 {
-    print <<<END
-<h2>Meta Tag Control Panel</h2>
-<form action="">
-    <input type="submit" name="submit" value="Update Meta Tags" />
-</form>
-END;
+    global $meta;
+
+    $yesNoOptions = array(
+        ''    => 'Default',
+        'yes' => 'yes',
+        'no'  => 'no'
+        );
+
+    print "<h2>Meta Tag Control Panel</h2>";
+
+    $form = new Form("MetaTagEditor");
+    $form->configure(array(
+        "method" => "get",
+    )); 
+
+    $form->addElement(new Element_HTMLExternal('<fieldset><legend>format-detection</legend>'));
+    $form->addElement(new Element_Select("telephone:", "meta.format-detection.telephone", $yesNoOptions, array(
+            "value" => $meta['format-detection']['telephone']
+        )));
+    $form->addElement(new Element_HTMLExternal('</fieldset>'));
+
+    $form->addElement(new Element_Button);
+    print $form->render();
 }

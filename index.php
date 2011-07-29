@@ -1,4 +1,4 @@
-<?php include "meta.php"; ?>
+<?php require_once "meta.php"; ?>
 <!DOCTYPE html> 
 <html> 
     <head> 
