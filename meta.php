@@ -104,6 +104,28 @@ function display_meta_control_panel()
         "method" => "get",
     )); 
 
+    $form->addElement(new Element_HTMLExternal('<fieldset><legend>viewport</legend>'));
+    $form->addElement(new Element_Textbox("width:", "meta.viewport.width", array(
+        'description' => "default is 980, any number or device-width"
+    )));
+    $form->addElement(new Element_Textbox("height:", "meta.viewport.height", array(
+        'description' => "default is 980, any number or device-height"
+    )));
+    $form->addElement(new Element_Textbox("initial-scale:", "meta.viewport.initial-scale"));
+    $form->addElement(new Element_Textbox("minimum-scale:", "meta.viewport.minimum-scale"));
+    $form->addElement(new Element_Textbox("maximum-scale:", "meta.viewport.maximum-scale"));
+    $form->setValues(array(
+            "meta.viewport.width" => $meta['viewport']['width'],
+            "meta.viewport.height" => $meta['viewport']['height'],
+            "meta.viewport.initial-scale" => $meta['viewport']['initial-scale'],
+            "meta.viewport.minimum-scale" => $meta['viewport']['minimum-scale'],
+            "meta.viewport.maximum-scale" => $meta['viewport']['maximum-scale'],
+        ));
+    $form->addElement(new Element_Select("user-scalable:", "meta.viewport.user-scalable", $yesNoOptions, array(
+            "value" => $meta['viewport']['user-scalable']
+        )));
+    $form->addElement(new Element_HTMLExternal('</fieldset>'));
+
     $form->addElement(new Element_HTMLExternal('<fieldset><legend>format-detection</legend>'));
     $form->addElement(new Element_Select("telephone:", "meta.format-detection.telephone", $yesNoOptions, array(
             "value" => $meta['format-detection']['telephone']
