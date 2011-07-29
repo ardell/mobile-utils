@@ -3,8 +3,16 @@
 // default values
 $meta = array(
     'viewport' => array(
-        'width'         => NULL,
-        'initial-scale' => NULL
+        'width'             => NULL,
+        'height'            => NULL,
+        'initial-scale'     => NULL,
+        'minimum-scale'     => NULL,
+        'maximum-scale'     => NULL,
+        'target-densitydpi' => NULL,
+        'user-scalable'     => NULL,
+    ),
+    'format-detection' => array(
+        'telephone'         => NULL
     )
 );
 $metaOut = "";
