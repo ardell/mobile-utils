@@ -10,7 +10,7 @@
 
 <ul data-role="listview">
     <li><a href="accelerometer_gyroscope.php">Accelerometer/Gyroscope</a></li>
-    <li><a href="sizing.html">Sizing</a></li>
+    <li><a href="sizing.php">Sizing</a></li>
 </ul>
 
 <?php display_meta_control_panel(); ?>
