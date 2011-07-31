@@ -139,6 +139,49 @@ li.description {
   background-color: rgba(0, 0, 255, 0.5);
 }
 </style>
+<script>
+function updateInfo(callContextMessage, preReadyHack)
+{
+  preReadyHack = (typeof preReadyHack === 'undefined' ? false : preReadyHack);
+
+  // Info
+  var calc = function(script) {
+      try {
+          return eval(script);
+      } catch (e) {
+          return "(error)";
+      }
+  };
+  var infos = [
+    { key: '$(document).height()', width: calc('$(document).width()'),          height: calc('$(document).height()')        },
+    { key: '$(window).height()',   width: calc('$(window).width()'),            height: calc('$(window).height()')          },
+    { key: 'window.innerHeight',   width: calc('window.innerWidth'),            height: calc('window.innerHeight')          },
+    { key: 'window.outerHeight',   width: calc('window.outerWidth'),            height: calc('window.outerHeight')          },
+    { key: 'body.clientHeight',    width: calc('document.body.clientWidth'),    height: calc('document.body.clientHeight')  },
+    { key: 'screen.height',        width: calc('screen.width'),                 height: calc('screen.height')               },
+    { key: 'screen.availHeight',   width: calc('screen.availWidth'),            height: calc('screen.availHeight')          }
+  ];
+  var tableElement = $('<table></table>');
+  tableElement.append($('<legend>As of: ' + callContextMessage + '</legend>'));
+  tableElement.append($('<tr><th>Property</th><th>Width</th><th>Height</th></tr>'));
+  $(infos).each(function(i, info) {
+    tableElement.append($('<tr><td>' + info.key + '</td><td>' + info.width + '</td><td>' + info.height + '</td></tr>'));
+  });
+  tableElement.append($('<tr><td>window.devicePixelRatio</td><td colspan="2">' + window.devicePixelRatio + '</td></tr>'));
+
+  if (preReadyHack)
+  {
+    jQuery(document).ready(function() {
+      $('#info').append(tableElement);
+    });
+  }
+  else
+  {
+    $('#info').append(tableElement);
+  }
+}
+updateInfo('head', true);
+</script>
 </head>
 <body>
 
@@ -164,6 +207,7 @@ li.description {
 
 <div id="contents">
   <div id="info"></div>
+  <a href="#" onclick="updateInfo('manual click'); return false;">Update</a>
 
   <div id="control-panel">
     <?php display_meta_control_panel(); ?>
@@ -213,24 +257,7 @@ jQuery(document).ready(function() {
     $('.inches.wide').append(block.clone());
   }
 
-  // Info
-  var infoElement = $('#info');
-  var infos = [
-    { key: '$(document).height()', width: $(document).width(),       height: $(document).height()       },
-    { key: '$(window).height()',   width: $(window).width(),         height: $(window).height()         },
-    { key: 'window.innerHeight',   width: window.innerWidth,         height: window.innerHeight         },
-    { key: 'window.outerHeight',   width: window.outerWidth,         height: window.outerHeight         },
-    { key: 'body.clientHeight',    width: document.body.clientWidth, height: document.body.clientHeight },
-    { key: 'screen.height',        width: screen.width,              height: screen.height              },
-    { key: 'screen.availHeight',   width: screen.availWidth,         height: screen.availHeight         }
-  ];
-  var tableElement = $('<table></table>');
-  tableElement.append($('<tr><th>Property</th><th>Width</th><th>Height</th></tr>'));
-  $(infos).each(function(i, info) {
-    tableElement.append($('<tr><td>' + info.key + '</td><td>' + info.width + '</td><td>' + info.height + '</td></tr>'));
-  });
-  infoElement.append(tableElement);
-  infoElement.append($('<div><label>window.devicePixelRatio</label>' + window.devicePixelRatio + "</div>"));
+  updateInfo('jQuery document.ready()');
 });
 </script>
 </body>
