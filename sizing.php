@@ -261,6 +261,9 @@ jQuery(document).ready(function() {
 
   updateInfo('jQuery document.ready()');
 });
+
+jQuery(window).bind('resize', function() { updateInfo('window.resize'); });
+jQuery(window).bind('orientationchange', function() { updateInfo('orientationchange'); });
 </script>
 </body>
 </html>
