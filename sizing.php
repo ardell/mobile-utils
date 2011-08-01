@@ -3,6 +3,9 @@
 <head>
 <title>Sizing Tester</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>
+<script src="javascripts/modernizr-2.0.3.js"></script>
+<script src="javascripts/jqm.mobile-utilities.js"></script>
+<script src="javascripts/jquery.fullScreenAppDimensionsChanged.js?2"></script>
 <?php output_meta(); ?>
 <style type="text/css">
 body {
@@ -181,47 +184,24 @@ function updateInfo(callContextMessage, preReadyHack)
   }
 }
 
-jQuery(window).bind('resize', function() { updateInfo('window.resize'); });
-jQuery(window).bind('orientationchange', function() { updateInfo('orientationchange'); });
-
 updateInfo('head', true);
 </script>
 </head>
 <body>
 
-<ul class="tall pixels">
-  <li class="description">px</li>
-</ul>
-<ul class="tall ems">
-  <li class="description">em</li>
-</ul>
-<ul class="tall inches">
-  <li class="description">in</li>
-</ul>
-
-<ul class="wide pixels">
-  <li class="description">px</li>
-</ul>
-<ul class="wide ems">
-  <li class="description">em</li>
-</ul>
-<ul class="wide inches">
-  <li class="description">in</li>
-</ul>
-
-<div id="contents">
-  <p><a href="#" onclick="window.scrollTo(0,0); return false;">scrollTo(0,0)</a> <a href="#" onclick="window.scrollTo(0,1); return false;">scrollTo(0,1)</a></p>
-  <p><a href="#" onclick="updateInfo('manual click'); return false;">Update</a></p>
-
-  <div id="info"></div>
-
-  <div id="control-panel">
-    <?php display_meta_control_panel(); ?>
-  </div>
-</div>
-
 <script>
+console.log("binding fs");
+jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
+  console.log("handling fullScreenAppDimensionsChanged");
+  updateInfo('dimensions changed', true);
+});
+
 jQuery(document).ready(function() {
+  // Bind handlers
+  jQuery('#scroll-to-00').click(function() { scrollTo(0, 0); return false; });
+  jQuery('#scroll-to-01').click(function() { scrollTo(0, 0); return false; });
+  jQuery('#manual-update').click(function() { updateInfo('manual click'); return false; });
+
   // Pixels
   var pixelsTall = $('.pixels.tall');
   var pixelsWide = $('.pixels.wide');
@@ -265,7 +245,43 @@ jQuery(document).ready(function() {
 
   updateInfo('jQuery document.ready()');
 });
-
 </script>
+
+<ul class="tall pixels">
+  <li class="description">px</li>
+</ul>
+<ul class="tall ems">
+  <li class="description">em</li>
+</ul>
+<ul class="tall inches">
+  <li class="description">in</li>
+</ul>
+
+<ul class="wide pixels">
+  <li class="description">px</li>
+</ul>
+<ul class="wide ems">
+  <li class="description">em</li>
+</ul>
+<ul class="wide inches">
+  <li class="description">in</li>
+</ul>
+
+<div id="contents">
+  <p>
+    <a id="scroll-to-00" href="#">scrollTo(0,0)</a>
+    <a id="scroll-to-01" href="#">scrollTo(0,1)</a>
+  </p>
+  <p>
+    <a id="manual-update" href="#">Update</a>
+  </p>
+
+  <div id="info"></div>
+
+  <div id="control-panel">
+    <?php display_meta_control_panel(); ?>
+  </div>
+</div>
+
 </body>
 </html>

@@ -9,16 +9,6 @@ var MobileUtilities = {
    */
   dimensions: function()
   {
-    var cacheKey = 'dimensions';
-
-    // Try first to pull from the cache
-    if (MobileUtilities.cache[cacheKey] != null) return MobileUtilities.cache[cacheKey];
-
-    // Set up an observer to expire the cache on resize
-    jQuery(window).bind(MobileUtilities.canonicalResizeEvent(), function(e) {
-      MobileUtilities.cache[cacheKey] = null;
-    });
-
     // Default
     var dims = {
       width:  jQuery(window).width(),
@@ -70,8 +60,7 @@ var MobileUtilities = {
       };
     }
 
-    MobileUtilities.cache[cacheKey] = dims;
-    return MobileUtilities.cache[cacheKey];
+    return dims;
   },
 
   orientation: function()
