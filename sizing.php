@@ -206,7 +206,8 @@ updateInfo('head', true);
 </ul>
 
 <div id="contents">
-  <a href="#" onclick="updateInfo('manual click'); return false;">Update</a>
+  <p><a href="#" onclick="window.scrollTo(0,0); return false;">scrollTo(0,0)</a></p>
+  <p><a href="#" onclick="updateInfo('manual click'); return false;">Update</a></p>
 
   <div id="info"></div>
 
