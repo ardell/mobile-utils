@@ -190,18 +190,14 @@ updateInfo('head', true);
 <body>
 
 <script>
-console.log("binding fs");
-jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
-  console.log("handling fullScreenAppDimensionsChanged");
-  updateInfo('dimensions changed', true);
-});
-
-jQuery(document).ready(function() {
+function bindHandlers() {
   // Bind handlers
   jQuery('#scroll-to-00').click(function() { scrollTo(0, 0); return false; });
   jQuery('#scroll-to-01').click(function() { scrollTo(0, 0); return false; });
   jQuery('#manual-update').click(function() { updateInfo('manual click'); return false; });
+}
 
+function layOutPage() {
   // Pixels
   var pixelsTall = $('.pixels.tall');
   var pixelsWide = $('.pixels.wide');
@@ -242,8 +238,18 @@ jQuery(document).ready(function() {
     $('.inches.tall').append(block);
     $('.inches.wide').append(block.clone());
   }
+}
 
+jQuery(document).ready(function() {
   updateInfo('jQuery document.ready()');
+});
+
+console.log("binding fs");
+jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
+  console.log("handling fullScreenAppDimensionsChanged");
+  updateInfo('dimensions changed', true);
+  bindHandlers();
+  layOutPage();
 });
 </script>
 
