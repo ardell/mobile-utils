@@ -180,6 +180,10 @@ function updateInfo(callContextMessage, preReadyHack)
     $('#info').append(tableElement);
   }
 }
+
+jQuery(window).bind('resize', function() { updateInfo('window.resize'); });
+jQuery(window).bind('orientationchange', function() { updateInfo('orientationchange'); });
+
 updateInfo('head', true);
 </script>
 </head>
@@ -262,8 +266,6 @@ jQuery(document).ready(function() {
   updateInfo('jQuery document.ready()');
 });
 
-jQuery(window).bind('resize', function() { updateInfo('window.resize'); });
-jQuery(window).bind('orientationchange', function() { updateInfo('orientationchange'); });
 </script>
 </body>
 </html>
