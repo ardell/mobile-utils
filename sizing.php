@@ -206,8 +206,9 @@ updateInfo('head', true);
 </ul>
 
 <div id="contents">
-  <div id="info"></div>
   <a href="#" onclick="updateInfo('manual click'); return false;">Update</a>
+
+  <div id="info"></div>
 
   <div id="control-panel">
     <?php display_meta_control_panel(); ?>
