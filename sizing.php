@@ -254,8 +254,10 @@ jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
   console.log("handling fullScreenAppDimensionsChanged");
   scrollTo(0, 0);
   updateInfo('dimensions changed', true);
-  bindHandlers();
-  layOutPage();
+  setTimeout(function() {
+    bindHandlers();
+    layOutPage();
+  }, 1000);
 });
 </script>
 
