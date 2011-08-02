@@ -60,9 +60,9 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
         jQuery('body').scrollTop(0);
         if (MobileUtilities.isAndroid())
         {
-          scrollTo(0, 1);
+          window.scrollTo(0, 1);
         } else {
-          scrollTo(0, 0);
+          window.scrollTo(0, 0);
         }
 
         // Trigger event

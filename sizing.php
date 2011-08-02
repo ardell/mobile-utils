@@ -265,8 +265,13 @@ jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
     jQuery('body > div.reallyBigDiv').remove();
     setTimeout(function() {
       jQuery('body').scrollTop(0);
-      scrollTo(0, 1); // Seems to be a race condition with using scrollTo
-    }, 175);
+      if (MobileUtilities.isAndroid())
+      {
+        scrollTo(0, 1);
+      } else {
+        scrollTo(0, 0);
+      }
+    }, 175); // Seems to be a race condition with using scrollTo
   }, 1);
 });
 </script>
