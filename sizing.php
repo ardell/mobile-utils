@@ -260,20 +260,16 @@ jQuery(document).ready(function() {
 
 jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
   updateInfo('dimensions changed', true);
-  setTimeout(function() {
-    bindHandlers();
-    layOutPage();
-    jQuery('body > div.reallyBigDiv').remove();
-    setTimeout(function() {
-      jQuery('body').scrollTop(0);
-      if (MobileUtilities.isAndroid())
-      {
-        scrollTo(0, 1);
-      } else {
-        scrollTo(0, 0);
-      }
-    }, 175); // Seems to be a race condition with using scrollTo
-  }, 1);
+  bindHandlers();
+  layOutPage();
+  jQuery('body').scrollTop(0);
+  if (MobileUtilities.isAndroid())
+  {
+    scrollTo(0, 1);
+  } else {
+    scrollTo(0, 0);
+  }
+  jQuery('body > div.reallyBigDiv').remove();
 });
 </script>
 
