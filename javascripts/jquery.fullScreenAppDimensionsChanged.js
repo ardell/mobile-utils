@@ -66,31 +66,35 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
       jQuery('body').append(bigDiv);
       console.log("appended bigDiv");
 
-      // scrollTo (0,0) on iOS, (0,1) on Android
-      if (MobileUtilities.isAndroid())
-      {
-        scrollTo(0, 1);
-        console.log("scrolledTo 0,1");
-      } else {
-        scrollTo(0, 0);
-        console.log("scrolledTo 0,0");
-      }
-
-      // Record dimensions
-      var dimensions = MobileUtilities.dimensions();
-      console.log("got dimensions: " + dimensions.width + ":" + dimensions.height);
-
-      // Trigger event
-      var customEvent        = jQuery.Event("fullScreenAppDimensionsChanged");
-      customEvent.dimensions = dimensions;
-      $window.trigger(customEvent);
-      console.log("triggered fsadc dimensions");
-
+      // There's a race condition--bigDiv hasn't caused
+      // the dom to lay out by the time we get to here.
       setTimeout(function() {
-        // Clean up
-        bigDiv.remove();
-        console.log("removed div");
-      }, 5000);
+        // scrollTo (0,0) on iOS, (0,1) on Android
+        if (MobileUtilities.isAndroid())
+        {
+          scrollTo(0, 1);
+          console.log("scrolledTo 0,1");
+        } else {
+          scrollTo(0, 0);
+          console.log("scrolledTo 0,0");
+        }
+
+        // Record dimensions
+        var dimensions = MobileUtilities.dimensions();
+        console.log("got dimensions: " + dimensions.width + ":" + dimensions.height);
+
+        // Trigger event
+        var customEvent        = jQuery.Event("fullScreenAppDimensionsChanged");
+        customEvent.dimensions = dimensions;
+        $window.trigger(customEvent);
+        console.log("triggered fsadc dimensions");
+
+        setTimeout(function() {
+          // Clean up
+          bigDiv.remove();
+          console.log("removed div");
+        }, 5000);
+      }, 100);
     }
 
     // Wire up to trigger on CustomOrientationChange
