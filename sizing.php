@@ -262,13 +262,7 @@ jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
   updateInfo('dimensions changed', true);
   bindHandlers();
   layOutPage();
-  jQuery('body').scrollTop(0);
-  if (MobileUtilities.isAndroid())
-  {
-    scrollTo(0, 1);
-  } else {
-    scrollTo(0, 0);
-  }
+  window.doScroll()
   jQuery('body > div.reallyBigDiv').remove();
 });
 </script>
