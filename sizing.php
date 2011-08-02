@@ -8,15 +8,15 @@
 <script src="javascripts/jquery.fullScreenAppDimensionsChanged.js?2"></script>
 <?php output_meta(); ?>
 <style type="text/css">
-.bigDiv {
-  background-color: #f00;
-}
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  height: 100%;
-  width: 100%;
+}
+.reallyBigDiv {
+  width:   2000px;
+  height:  2000px;
+  display: inline-block;
 }
 #contents {
   position: absolute;
@@ -193,6 +193,8 @@ updateInfo('head', true);
 </script>
 </head>
 <body>
+
+<div class="reallyBigDiv"></div> <!-- Used for detecting browser size -->
 
 <script>
 function bindHandlers() {
