@@ -258,6 +258,10 @@ jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
   setTimeout(function() {
     bindHandlers();
     layOutPage();
+    setTimeout(function() {
+      jQuery('body').scrollTop(0);
+      scrollTo(0, 1); // Seems to be a race condition with using scrollTo
+    }, 175);
   }, 1);
 });
 </script>
