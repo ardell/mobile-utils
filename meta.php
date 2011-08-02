@@ -66,7 +66,7 @@ function read_persist_meta()
                 setcookie($cookieName, $value); // will clear automatically
 
                 // don't output NULLs
-                if (is_null($value)) continue;
+                if (is_null($value) || $value == '') continue;
 
                 $hasSomething = true;
                 $content[] = "{$subName}={$value}";
