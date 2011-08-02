@@ -1,0 +1,65 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1;" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js"></script>
+</head>
+<body>
+<div class="reallyBigDiv" style="width: 2000px; height: 2000px;">Loading...</div>
+<script>
+var dumpShit = function(msg) {
+  console.log(msg + ' / window.pageYOffset: ' + window.pageYOffset);
+  console.log(msg + ' / window.innerHeight: ' + window.innerHeight);
+};
+
+var poller = setInterval(function() { dumpShit('poll'); }, 50);
+setTimeout(function () { clearInterval(poller) }, 1500);
+
+$(document).ready(function() {
+  var isAndroid = true;
+  var scrollYOffsetToHideAddressBar = (function() {
+    return isAndroid ? 1 : 0;
+  })();
+  
+  // THIS IS NOT SYNCHRONOUS ON ANDROID!
+  // iPhone???
+  var scrollToHideAddressBar = function() {
+    console.log('window.scrollTo: ' + scrollYOffsetToHideAddressBar);
+    window.scrollTo(0, scrollYOffsetToHideAddressBar);
+  };
+  
+  var readDims = function() {
+    if (window.pageYOffset != 0 && window.pageYOffset != 1) throw("readDims() called when window.pageYOffset is not 0 or 1. Was: " + window.pageYOffset);
+    
+    dumpShit('readDims');
+    
+    // Capture the dimensions of the window
+    var dims = (window.innerHeight + window.pageYOffset) + "x" + window.innerWidth + ", we expect: 508x320";
+
+    // Write the dimensions to the div
+    $('.reallyBigDiv').html(dims);
+  };
+  
+  var watchForScrollToTop = function() {
+    dumpShit("watchForScrollToTop");
+    if (window.pageYOffset !== scrollYOffsetToHideAddressBar) return;
+
+    dumpShit('detected scrolled to top!');
+
+    $(window).unbind('scroll', watchForScrollToTop);
+    readDims();
+    $(window).bind('scroll', function() { dumpShit('post-readDims scrolls'); });
+    
+  };
+
+  // We're binding here to the Android browser's scroll event
+  $(window).bind('scroll', watchForScrollToTop);
+  console.log("about to call watchForScrollToTop to check for initial 0 value");
+  watchForScrollToTop(); // might already be at 0; if so no scroll event will fire
+  dumpShit("about to scrollToHideAddressBar");
+  scrollToHideAddressBar();
+  dumpShit("just scrollToHideAddressBar");
+  
+});
+</script>
+</body>
+</html>
