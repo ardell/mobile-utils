@@ -72,7 +72,7 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
         }
         if (MobileUtilities.isAndroid())
         {
-          setTimeout(callback, 100); // There seems to be a race condition here on Android, 100ms doesn't work on Android, 1000ms works on Android
+          setTimeout(callback, 1000); // There seems to be a race condition here on Android, 100ms doesn't work on Android, 1000ms works on Android
         } else {
           callback();
         }
