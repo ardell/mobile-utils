@@ -59,6 +59,7 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
 
       // Append really big div so scrollTo works?
       var callback = function() {
+        console.log("inside callback");
         // There's a race condition--bigDiv hasn't caused
         // the dom to lay out by the time we get to here.
 
@@ -88,20 +89,12 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
           console.log("removed div");
         }, 1000);
       };
-      var timer = setInterval(function() {
-        var bigDivElement = jQuery('.bigDiv');
-        var $document = jQuery(document);
-        if (bigDivElement.length < 1) return;
-        if ($document.width() < 2000) return;
-        if ($document.height() < 2000) return;
-        clearTimeout(timer);
-        callback();
-      }, 100);
       var bigDiv = jQuery('<div class="bigDiv"></div>').css({
         width: 2000,
         height: 2000,
         display: 'inline-block'
       });
+      jQuery('body').one('DOMNodeInserted', callback);
       jQuery('body').append(bigDiv);
       console.log("appended bigDiv");
     }
