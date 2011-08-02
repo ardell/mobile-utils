@@ -253,7 +253,6 @@ jQuery(document).ready(function() {
   updateInfo('jQuery document.ready()');
 });
 
-console.log("binding fs");
 jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
   console.log("handling fullScreenAppDimensionsChanged");
   scrollTo(0, 0);
