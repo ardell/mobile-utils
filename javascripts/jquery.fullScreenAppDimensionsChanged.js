@@ -1,4 +1,5 @@
 window.doScroll = function() {
+  window.scrollTo(0, 3);
   console.log("begin doScroll from: " + jQuery('body').scrollTop() + " at: " + (+new Date()));
   if (MobileUtilities.isAndroid())
   {
