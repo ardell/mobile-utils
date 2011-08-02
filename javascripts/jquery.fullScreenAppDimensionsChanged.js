@@ -86,7 +86,7 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
           // Clean up
           bigDiv.remove();
           console.log("removed div");
-        }, 5000);
+        }, 1000);
       };
       var timer = setInterval(function() {
         var bigDivElement = jQuery('.bigDiv');

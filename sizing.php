@@ -8,6 +8,9 @@
 <script src="javascripts/jquery.fullScreenAppDimensionsChanged.js?2"></script>
 <?php output_meta(); ?>
 <style type="text/css">
+.bigDiv {
+  background-color: #f00;
+}
 body {
   margin: 0;
   padding: 0;
