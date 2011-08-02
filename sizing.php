@@ -211,7 +211,6 @@ function layOutPage() {
   var pixelsTall = $('<ul></ul>');
   var pixelsWide = $('<ul></ul>');
   var maxDim     = Math.max(dims.width, dims.height);
-  console.log("maxDim is: " + maxDim);
   for (var i = 1; i < maxDim; i++) {
     var block = $('<li></li>');
     if (i % 5   == 0) block.addClass('increment-5');
