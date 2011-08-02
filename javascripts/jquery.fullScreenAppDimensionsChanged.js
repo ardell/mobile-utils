@@ -90,9 +90,10 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
       };
       var timer = setInterval(function() {
         var bigDivElement = jQuery('.bigDiv');
+        var $document = jQuery(document);
         if (bigDivElement.length < 1) return;
-        if (bigDivElement.width() < 2000) return;
-        if (bigDivElement.height() < 2000) return;
+        if ($document.width() < 2000) return;
+        if ($document.height() < 2000) return;
         clearTimeout(timer);
         callback();
       }, 100);
