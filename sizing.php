@@ -200,7 +200,8 @@ updateInfo('head', true);
 function bindHandlers() {
   // Bind handlers
   jQuery('#scroll-to-00').click(function() { scrollTo(0, 0); return false; });
-  jQuery('#scroll-to-01').click(function() { scrollTo(0, 0); return false; });
+  jQuery('#scroll-to-01').click(function() { scrollTo(0, 1); return false; });
+  jQuery('#scroll-top').click(function() { jQuery('body').scrollTop(0); return false; });
   jQuery('#manual-update').click(function() { updateInfo('manual click'); return false; });
 }
 
@@ -294,6 +295,7 @@ jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
   <p>
     <a id="scroll-to-00" href="#">scrollTo(0,0)</a>
     <a id="scroll-to-01" href="#">scrollTo(0,1)</a>
+    <a id="scroll-top" href="#">$('body').scrollTop(0)</a>
   </p>
   <p>
     <a id="manual-update" href="#">Update</a>
