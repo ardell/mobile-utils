@@ -58,17 +58,10 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
       console.log("inside the handler");
 
       // Append really big div so scrollTo works?
-      var bigDiv = jQuery('<div></div>').css({
-        width: 2000,
-        height: 2000,
-        display: 'inline-block'
-      });
-      jQuery('body').append(bigDiv);
-      console.log("appended bigDiv");
+      var callback = function() {
+        // There's a race condition--bigDiv hasn't caused
+        // the dom to lay out by the time we get to here.
 
-      // There's a race condition--bigDiv hasn't caused
-      // the dom to lay out by the time we get to here.
-      setTimeout(function() {
         // scrollTo (0,0) on iOS, (0,1) on Android
         if (MobileUtilities.isAndroid())
         {
@@ -94,7 +87,22 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
           bigDiv.remove();
           console.log("removed div");
         }, 5000);
+      };
+      var timer = setInterval(function() {
+        var bigDivElement = jQuery('.bigDiv');
+        if (bigDivElement.length < 1) return;
+        if (bigDivElement.width() < 2000) return;
+        if (bigDivElement.height() < 2000) return;
+        clearTimeout(timer);
+        callback();
       }, 100);
+      var bigDiv = jQuery('<div class="bigDiv"></div>').css({
+        width: 2000,
+        height: 2000,
+        display: 'inline-block'
+      });
+      jQuery('body').append(bigDiv);
+      console.log("appended bigDiv");
     }
 
     // Wire up to trigger on CustomOrientationChange
