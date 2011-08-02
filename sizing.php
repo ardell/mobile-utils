@@ -205,10 +205,14 @@ function bindHandlers() {
 }
 
 function layOutPage() {
+  var dims = MobileUtilities.dimensions();
+
   // Pixels
   var pixelsTall = $('<ul></ul>');
   var pixelsWide = $('<ul></ul>');
-  for (var i = 1; i < 1400; i++) {
+  var maxDim     = Math.max(dims.width, dims.height);
+  console.log("maxDim is: " + maxDim);
+  for (var i = 1; i < maxDim; i++) {
     var block = $('<li></li>');
     if (i % 5   == 0) block.addClass('increment-5');
     if (i % 10  == 0) block.addClass('increment-10');
@@ -258,6 +262,7 @@ jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
   setTimeout(function() {
     bindHandlers();
     layOutPage();
+    jQuery('body > div.reallyBigDiv').remove();
     setTimeout(function() {
       jQuery('body').scrollTop(0);
       scrollTo(0, 1); // Seems to be a race condition with using scrollTo
