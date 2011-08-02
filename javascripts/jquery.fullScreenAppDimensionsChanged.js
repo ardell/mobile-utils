@@ -69,7 +69,7 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
           // Trigger event
           var customEvent = jQuery.Event("fullScreenAppDimensionsChanged");
           $window.trigger(customEvent);
-        }, 1000); // There seems to be a race condition here on Android, 100ms doesn't work on Android, 1000ms works on Android
+        }, 5000); // There seems to be a race condition here on Android, 100ms doesn't work on Android, 1000ms works on Android
       }, 1);
     }
 
