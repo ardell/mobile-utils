@@ -11,8 +11,8 @@ var MobileUtilities = {
   {
     // Default
     var dims = {
-      width:  jQuery(window).width(),
-      height: jQuery(window).height()
+      width:  window.innerWidth,
+      height: window.innerHeight
     };
 
     // iOS

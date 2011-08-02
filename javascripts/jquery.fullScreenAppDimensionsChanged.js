@@ -59,26 +59,29 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
 
       // There's a race condition--bigDiv hasn't caused
       // the dom to lay out by the time we get to here.
+      setTimeout(function() {
+        // scrollTo (0,0) on iOS, (0,1) on Android
+        if (MobileUtilities.isAndroid())
+        {
+          jQuery('html,body').scrollTop(100);
+          console.log("scrolledTo 0,100");
+        } else {
+          jQuery('html,body').scrollTop(100);
+          console.log("scrolledTo 0,100");
+        }
 
-      // scrollTo (0,0) on iOS, (0,1) on Android
-      if (MobileUtilities.isAndroid())
-      {
-        scrollTo(0, 1);
-        console.log("scrolledTo 0,1");
-      } else {
-        scrollTo(0, 0);
-        console.log("scrolledTo 0,0");
-      }
+        setTimeout(function() {
+          // Record dimensions
+          var dimensions = MobileUtilities.dimensions();
+          console.log("got dimensions: " + dimensions.width + ":" + dimensions.height);
 
-      // Record dimensions
-      var dimensions = MobileUtilities.dimensions();
-      console.log("got dimensions: " + dimensions.width + ":" + dimensions.height);
-
-      // Trigger event
-      var customEvent        = jQuery.Event("fullScreenAppDimensionsChanged");
-      customEvent.dimensions = dimensions;
-      $window.trigger(customEvent);
-      console.log("triggered fsadc dimensions");
+          // Trigger event
+          var customEvent        = jQuery.Event("fullScreenAppDimensionsChanged");
+          customEvent.dimensions = dimensions;
+          $window.trigger(customEvent);
+          console.log("triggered fsadc dimensions");
+        }, 1000);
+      }, 1000);
     }
 
     // Wire up to trigger on CustomOrientationChange

@@ -194,7 +194,7 @@ updateInfo('head', true);
 </head>
 <body>
 
-<div class="reallyBigDiv"></div> <!-- Used for detecting browser size -->
+<div style="width: 3000px; height: 3000px;" class="reallyBigDiv"></div> <!-- Used for detecting browser size -->
 
 <script>
 function bindHandlers() {
