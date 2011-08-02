@@ -69,7 +69,7 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
           // Trigger event
           var customEvent = jQuery.Event("fullScreenAppDimensionsChanged");
           $window.trigger(customEvent);
-        }, 1000);
+        }, 1);
       }, 1);
     }
 
