@@ -1,12 +1,12 @@
 window.doScroll = function() {
-  console.log("begin doScroll at: " + (+new Date()));
+  console.log("begin doScroll from: " + jQuery('body').scrollTop() + " at: " + (+new Date()));
   if (MobileUtilities.isAndroid())
   {
     window.scrollTo(0, 1);
   } else {
     window.scrollTo(0, 0);
   }
-  console.log("end doScroll at: " + (+new Date()));
+  console.log("end doScroll at: " + jQuery('body').scrollTop() + " at: " + (+new Date()));
 };
 
 var $window = jQuery(window);
@@ -65,6 +65,7 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
     var elem     = this, $elem = jQuery(elem);
     var _handler = function(event) {
       // Scroll to top
+      // NOTE: This always _says_ it worked, but does not always work.
       window.doScroll();
 
       // Trigger event
@@ -79,7 +80,7 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
     );
 
     // Fire once the first time
-    setTimeout(_handler, 100);
+    _handler();
   },
 
   teardown: function(namespaces) {
