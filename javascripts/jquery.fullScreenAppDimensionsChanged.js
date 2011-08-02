@@ -63,37 +63,35 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
         height: 2000,
         display: 'inline-block'
       });
-      bigDiv.bind('load', function() {
-        // scrollTo (0,0) on iOS, (0,1) on Android
-        if (MobileUtilities.isAndroid())
-        {
-          scrollTo(0, 1);
-          console.log("scrolledTo 0,1");
-        } else {
-          scrollTo(0, 0);
-          console.log("scrolledTo 0,0");
-        }
-
-        // Record dimensions
-        var dimensions = MobileUtilities.dimensions();
-        console.log("got dimensions: " + dimensions.width + ":" + dimensions.height);
-
-        // Trigger event
-        var customEvent        = jQuery.Event("fullScreenAppDimensionsChanged");
-        customEvent.dimensions = dimensions;
-        $window.trigger(customEvent);
-        console.log("triggered fsadc dimensions");
-
-        setTimeout(function() {
-          // Clean up
-          bigDiv.remove();
-          console.log("removed div");
-        }, 5000);
-      });
-
       jQuery('body').append(bigDiv);
       console.log("appended bigDiv");
-    };
+
+      // scrollTo (0,0) on iOS, (0,1) on Android
+      if (MobileUtilities.isAndroid())
+      {
+        scrollTo(0, 1);
+        console.log("scrolledTo 0,1");
+      } else {
+        scrollTo(0, 0);
+        console.log("scrolledTo 0,0");
+      }
+
+      // Record dimensions
+      var dimensions = MobileUtilities.dimensions();
+      console.log("got dimensions: " + dimensions.width + ":" + dimensions.height);
+
+      // Trigger event
+      var customEvent        = jQuery.Event("fullScreenAppDimensionsChanged");
+      customEvent.dimensions = dimensions;
+      $window.trigger(customEvent);
+      console.log("triggered fsadc dimensions");
+
+      setTimeout(function() {
+        // Clean up
+        bigDiv.remove();
+        console.log("removed div");
+      }, 5000);
+    }
 
     // Wire up to trigger on CustomOrientationChange
     $window.bind(

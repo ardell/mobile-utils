@@ -199,8 +199,8 @@ function bindHandlers() {
 
 function layOutPage() {
   // Pixels
-  var pixelsTall = $('.pixels.tall');
-  var pixelsWide = $('.pixels.wide');
+  var pixelsTall = $('<ul></ul>');
+  var pixelsWide = $('<ul></ul>');
   for (var i = 1; i < 1400; i++) {
     var block = $('<li></li>');
     if (i % 5   == 0) block.addClass('increment-5');
@@ -213,6 +213,8 @@ function layOutPage() {
     pixelsTall.append(block);
     pixelsWide.append(block.clone());
   }
+  $('.pixels.tall').append(pixelsTall.find('li'));
+  $('.pixels.wide').append(pixelsWide.find('li'));
 
   // Ems
   var emsTall = $('.ems.tall');
