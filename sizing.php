@@ -247,6 +247,7 @@ jQuery(document).ready(function() {
 console.log("binding fs");
 jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
   console.log("handling fullScreenAppDimensionsChanged");
+  scrollTo(0, 0);
   updateInfo('dimensions changed', true);
   bindHandlers();
   layOutPage();

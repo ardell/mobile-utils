@@ -63,10 +63,7 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
         height: 2000,
         display: 'inline-block'
       });
-      jQuery('body').append(bigDiv);
-      console.log("appended bigDiv");
-
-      setTimeout(function() {
+      bigDiv.bind('load', function() {
         // scrollTo (0,0) on iOS, (0,1) on Android
         if (MobileUtilities.isAndroid())
         {
@@ -92,7 +89,10 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
           bigDiv.remove();
           console.log("removed div");
         }, 5000);
-      }, 1000);
+      });
+
+      jQuery('body').append(bigDiv);
+      console.log("appended bigDiv");
     };
 
     // Wire up to trigger on CustomOrientationChange
