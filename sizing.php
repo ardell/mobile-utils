@@ -194,7 +194,7 @@ updateInfo('head', true);
 </head>
 <body>
 
-<div style="width: 3000px; height: 3000px;" class="reallyBigDiv"></div> <!-- Used for detecting browser size -->
+<div class="reallyBigDiv"></div> <!-- Used for detecting browser size -->
 
 <script>
 function bindHandlers() {
@@ -254,8 +254,6 @@ jQuery(document).ready(function() {
 });
 
 jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
-  console.log("handling fullScreenAppDimensionsChanged");
-  scrollTo(0, 0);
   updateInfo('dimensions changed', true);
   setTimeout(function() {
     bindHandlers();

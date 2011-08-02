@@ -56,19 +56,18 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
       // There's a race condition--bigDiv hasn't caused
       // the dom to lay out by the time we get to here.
       setTimeout(function() {
-        // scrollTo (0,0) on iOS, (0,1) on Android
-        jQuery('html,body').scrollTop(0);
+        // Scroll to top
+        jQuery('body').scrollTop(0);
+        if (MobileUtilities.isAndroid())
+        {
+          scrollTo(0, 1);
+        } else {
+          scrollTo(0, 0);
+        }
 
-        setTimeout(function() {
-          // Record dimensions
-          var dimensions = MobileUtilities.dimensions();
-          console.log("got dimensions: " + dimensions.width + ":" + dimensions.height);
-
-          // Trigger event
-          var customEvent        = jQuery.Event("fullScreenAppDimensionsChanged");
-          customEvent.dimensions = dimensions;
-          $window.trigger(customEvent);
-        }, 100);
+        // Trigger event
+        var customEvent = jQuery.Event("fullScreenAppDimensionsChanged");
+        $window.trigger(customEvent);
       }, 100);
     }
 

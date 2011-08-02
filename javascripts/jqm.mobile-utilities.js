@@ -9,58 +9,11 @@ var MobileUtilities = {
    */
   dimensions: function()
   {
-    // Default
-    var dims = {
+    // See http://mobile-utils.pagodabox.com/sizing.php
+    return dims = {
       width:  window.innerWidth,
       height: window.innerHeight
     };
-
-    // iOS
-    if (MobileUtilities.isIphone() || MobileUtilities.isIpod())
-    {
-      if (MobileUtilities.isSafari())
-      {
-        // If the user is on an iPhone or iPod Touch AND they're
-        // using Mobile Safari, we'll take into account the
-        // address bar which will be hidden on scroll.
-        // jQuery(window).height() doesn't count the height of the
-        // address bar so it makes our window too short.
-        dims = {
-          width:  jQuery(window).width(),
-          height: jQuery(window).height() + 60
-        };
-      } else {
-        // They're probably in a UI Web View (e.g. a QR Code scanner)
-        dims = {
-          width:  jQuery(window).width(),
-          height: jQuery(window).height()
-        };
-      }
-    }
-
-    // Android
-    if(MobileUtilities.isAndroid())
-    {
-      scrollTo(0, 1); // Need this, otherwise Android doesn't return correct dimensions and has a huge gap at the$
-      dims = {
-        width:  screen.availWidth,
-        height: screen.availHeight
-        // After a ton of research I determined that it is likely impossible to fill height
-        // on all devices in order to remove the address bar. We'll just have to be fine with
-        // showing the address bar on Android devices for now.
-        //            Width Height PxRatio Dimensions
-        // Comet:     240px 320px  1       333x410
-        // Nexus One: 480px 800px  1.5     440x699
-        // window.outerHeight gives us a fixed height of the window, including empty space
-        // screen.height and jQuery(window).height tells us how tall the element is, not including empty space
-        // window.innerHeight works perfectly on Nexus One, but does not remove the address bar on comet.
-        // screen.availHeight does not include the address bar on Android (not tested on iOS)
-        // height: window.outerHeight - 62 // Nexus One (to remove address bar)
-        // height: window.outerHeight + 115 // Comet (to remove address bar)
-      };
-    }
-
-    return dims;
   },
 
   orientation: function()
