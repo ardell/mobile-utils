@@ -257,7 +257,7 @@ jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
   setTimeout(function() {
     bindHandlers();
     layOutPage();
-  }, 1000);
+  }, 1);
 });
 </script>
 
