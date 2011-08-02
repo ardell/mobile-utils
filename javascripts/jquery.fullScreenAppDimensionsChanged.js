@@ -70,7 +70,7 @@ jQuery.event.special.fullScreenAppDimensionsChanged = {
           var customEvent = jQuery.Event("fullScreenAppDimensionsChanged");
           $window.trigger(customEvent);
         }, 1000);
-      }, 1000);
+      }, 1);
     }
 
     // Wire up to trigger on CustomOrientationChange
