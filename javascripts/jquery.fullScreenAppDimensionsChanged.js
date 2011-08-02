@@ -49,28 +49,40 @@ jQuery.event.special.deviceIndependentOrientationChange = {
   }
 };
 
+window.doScroll = function() {
+  console.log("begin doScroll at: " + (+new Date()));
+  if (MobileUtilities.isAndroid())
+  {
+    window.scrollTo(0, 1);
+  } else {
+    window.scrollTo(0, 0);
+  }
+  console.log("end doScroll at: " + (+new Date()));
+};
+
 jQuery.event.special.fullScreenAppDimensionsChanged = {
   add: function(handleObj) {
     var elem     = this, $elem = jQuery(elem);
     var _handler = function(event) {
-      // There's a race condition--bigDiv hasn't caused
-      // the dom to lay out by the time we get to here.
-      setTimeout(function() {
+      // There's a race condition--.reallyBigDiv hasn't caused
+      // the dom to lay out by the time we get to here. This
+      // is true both on Android and on iOS.
+      // setTimeout(function() {
         // Scroll to top
-        jQuery('body').scrollTop(0);
-        if (MobileUtilities.isAndroid())
-        {
-          window.scrollTo(0, 1);
-        } else {
-          window.scrollTo(0, 0);
-        }
+        // jQuery('body').scrollTop(0);
+        window.doScroll();
 
-        setTimeout(function() {
+        // There seems to be a race condition here on Android
+        // waiting for window.scrollTo to take effect.
+        //  100ms: doesn't work
+        // 1000ms: works sometimes
+        // 5000ms: works consistently, but it's _5 SECONDS_!
+        // setTimeout(function() {
           // Trigger event
           var customEvent = jQuery.Event("fullScreenAppDimensionsChanged");
           $window.trigger(customEvent);
-        }, 5000); // There seems to be a race condition here on Android, 100ms doesn't work on Android, 1000ms works on Android
-      }, 1);
+        // }, 5000);
+      // }, 1);
     }
 
     // Wire up to trigger on CustomOrientationChange

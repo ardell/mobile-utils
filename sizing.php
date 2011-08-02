@@ -199,6 +199,7 @@ updateInfo('head', true);
 <script>
 function bindHandlers() {
   // Bind handlers
+  jQuery('#window-doScroll').click(function() { window.doScroll(); return false; });
   jQuery('#scroll-to-00').click(function() { scrollTo(0, 0); return false; });
   jQuery('#scroll-to-01').click(function() { scrollTo(0, 1); return false; });
   jQuery('#scroll-top').click(function() { jQuery('body').scrollTop(0); return false; });
@@ -298,6 +299,7 @@ jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
 
 <div id="contents">
   <p>
+    <a id="window-doScroll" href="#">window.doScroll()</a>
     <a id="scroll-to-00" href="#">scrollTo(0,0)</a>
     <a id="scroll-to-01" href="#">scrollTo(0,1)</a>
     <a id="scroll-top" href="#">$('body').scrollTop(0)</a>
