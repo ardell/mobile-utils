@@ -259,11 +259,11 @@ jQuery(document).ready(function() {
 });
 
 jQuery(window).bind('fullScreenAppDimensionsChanged', function() {
-  updateInfo('dimensions changed', true);
+  updateInfo('dimensions changed');
   bindHandlers();
   layOutPage();
-  window.doScroll()
-  jQuery('body > div.reallyBigDiv').remove();
+  window.doScroll();
+  // jQuery('body > div.reallyBigDiv').remove();
 });
 </script>
 

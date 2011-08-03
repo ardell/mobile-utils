@@ -15,7 +15,7 @@ var poller = setInterval(function() { dumpShit('poll'); }, 50);
 setTimeout(function () { clearInterval(poller) }, 1500);
 
 $(document).ready(function() {
-  var isAndroid = true;
+  var isAndroid = false;
   var scrollYOffsetToHideAddressBar = (function() {
     return isAndroid ? 1 : 0;
   })();

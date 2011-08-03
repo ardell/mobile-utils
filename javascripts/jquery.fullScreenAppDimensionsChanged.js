@@ -10,16 +10,23 @@ window.doScroll = function() {
   // For both:
   // - jQuery(window).scrollTop(3);
   // - window.scrollTo(0, 3);
-  // window.scrollTo(0, 3);
-  // console.log("Really big div: " + jQuery('.reallyBigDiv').width() + "x" + jQuery('.reallyBigDiv').height());
-  console.log("begin doScroll from: " + window.pageYOffset + " at: " + (+new Date()));
   if (MobileUtilities.isAndroid())
   {
-    window.scrollTo(0, 1);
+    setTimeout(function() {
+      jQuery('html,body').scrollTop(3);
+      console.log("reallyBigDiv: " + jQuery('.reallyBigDiv').width() + "x" + jQuery('.reallyBigDiv').height());
+      window.scrollTo(0, 3);
+      console.log("begin doScroll from: " + window.pageYOffset + " at: " + (+new Date()));
+      console.log("html scrolltop is: " + jQuery('html').scrollTop());
+      console.log("body scrolltop is: " + jQuery('body').scrollTop());
+      window.scrollTo(0, 1);
+      console.log("end doScroll at: " + window.pageYOffset + " at: " + (+new Date()));
+    }, 5000);
   } else {
+    console.log("begin doScroll from: " + window.pageYOffset + " at: " + (+new Date()));
     window.scrollTo(0, 0);
+    console.log("end doScroll at: " + window.pageYOffset + " at: " + (+new Date()));
   }
-  console.log("end doScroll at: " + window.pageYOffset + " at: " + (+new Date()));
 };
 
 var $window = jQuery(window);
