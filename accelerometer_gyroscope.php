@@ -51,6 +51,10 @@ label {
   <label>Yaw:</label>
   <span id="yaw"></span>
 </p>
+<p>
+  <label>Absolute:</label>
+  <span id="absolute"></span>
+</p>
 
 <script>
 $.noConflict();
@@ -93,12 +97,13 @@ jQuery(document).ready(function() {
       }
 
       if (e.hardware == 'gyroscope') jQuery('#gyroscope').html('enabled');
-      if (e.alpha) displayRoundedValue('#alpha', e.alpha);
-      if (e.beta)  displayRoundedValue('#beta',  e.beta);
-      if (e.gamma) displayRoundedValue('#gamma', e.gamma);
-      if (e.roll)  displayRoundedValue('#roll',  e.roll);
-      if (e.pitch) displayRoundedValue('#pitch', e.pitch);
-      if (e.yaw)   displayRoundedValue('#yaw',   e.yaw);
+      if (e.alpha)              displayRoundedValue('#alpha',    e.alpha);
+      if (e.beta)               displayRoundedValue('#beta',     e.beta);
+      if (e.gamma)              displayRoundedValue('#gamma',    e.gamma);
+      if (e.roll)               displayRoundedValue('#roll',     e.roll);
+      if (e.pitch)              displayRoundedValue('#pitch',    e.pitch);
+      if (e.yaw)                displayRoundedValue('#yaw',      e.yaw);
+      if (e.absolute != null)   displayRoundedValue('#absolute', e.absolute);
     })
     ;
 });

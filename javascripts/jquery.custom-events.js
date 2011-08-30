@@ -569,6 +569,7 @@ CustomEvents.DeviceMovement = {
           customEvent.roll      = angles.roll;
           customEvent.pitch     = angles.pitch;
           customEvent.yaw       = angles.yaw;
+          customEvent.absolute  = event.absolute;
           jQuery(event.currentTarget).trigger(customEvent);
         } else if (event.type == 'devicemotion') {
           var acceleration = null;
